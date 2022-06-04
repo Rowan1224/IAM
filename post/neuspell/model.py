@@ -4,7 +4,7 @@ from typing import List, Dict, Union
 
 import numpy as np
 import torch
-# from pytorch_pretrained_bert import BertAdam
+
 from transformers import AdamW
 
 from commons import DEFAULT_TRAINTEST_DATA_PATH
