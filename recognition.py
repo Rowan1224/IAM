@@ -8,13 +8,14 @@ from post.neuspell import predict as neuspell
 import argparse
 import os
 
+
 def create_arg_parser():
 
     """Returns a map with commandline parameters taken from the user"""
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i", "--inDir", default='datasets/IAM-data/formatted/test', type=str, help="provide the path of test image directory/folder"
+        "-i", "--inDir", required=True, type=str, help="provide the path of test image directory/folder"
     )
     parser.add_argument(
         "-m", "--modelDir", default='line/models', type=str, help="provide the pre-trained model directory"
@@ -22,6 +23,10 @@ def create_arg_parser():
 
     parser.add_argument(
         "-p", "--post", choices=['brute', 'candidate', 'neuspell','neuspell-edit'], default='brute', type=str, help="select the post edit method"
+    )
+
+    parser.add_argument(
+        "-nm", "--neuModel", default='post/neuspell/data/models/bert-base-cased', type=str, help="In case of any neuspell method, provide the model path"
     )
 
 
@@ -43,6 +48,12 @@ def main():
     if not os.path.exists(inDir):
         print("INVALID image directory")
         return
+
+    if args.post=='neuspell' or args.post=='neuspell-edit':
+        if not os.path.exists(args.neuModel):
+            print("INVALID neuspell model directory")
+            return
+    
         
 
     lines = predict.predict(modelDir, inDir)
@@ -55,12 +66,12 @@ def main():
 
     elif args.post == 'candidate':
 
-        edited_lines = [(name, utils.edit_candidate(sen, english_words_set, bert_model)) for name,sen in lines]
+        edited_lines = [(name, utils.edit_candidate(sen, english_words_set, bert_vocab, bert_model)) for name,sen in lines]
 
     elif args.post == 'neuspell':
 
                
-        neu_preds = neuspell.predict(lines,'post/neuspell/data/new_models/bert-base-cased')
+        neu_preds = neuspell.predict(lines,args.neuModel)
         
         edited_lines= [(name,sen) for name,sen in neu_preds.items()]
   
@@ -68,7 +79,7 @@ def main():
     elif args.post == 'neuspell-edit':
 
                
-        neu_preds = neuspell.predict(lines,'post/neuspell/data/new_models/bert-base-cased')
+        neu_preds = neuspell.predict(lines,args.neuModel)
         
         edited_lines = []
         for name,sen in lines:

@@ -120,7 +120,7 @@ class Corrector(ABC):
 
     def _from_pretrained(self, ckpt_path=None, vocab_path=None):
 
-        print(ckpt_path)
+        # print(ckpt_path)
 
         if ckpt_path:
             self._default_name = os.path.split(ckpt_path)[-1]

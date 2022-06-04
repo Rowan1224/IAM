@@ -149,10 +149,17 @@ class DatasetManager:
                                                              num_replicas=self.params["num_gpu"],
                                                              rank=self.params["ddp_rank"], shuffle=False) \
             if self.params["use_ddp"] else None
-        self.test_loaders[custom_name] = DataLoader(self.test_datasets[custom_name], batch_size=self.params["batch_size"],
-                                                    sampler=self.test_samplers[custom_name],
-                                                    shuffle=False, num_workers=self.params["num_gpu"], pin_memory=True,
-                                                    drop_last=False, collate_fn=OCRCustomCollateFunction(self.params["config"]))
+        if custom:
+            self.test_loaders[custom_name] = DataLoader(self.test_datasets[custom_name], batch_size=self.params["batch_size"],
+                                                        sampler=self.test_samplers[custom_name],
+                                                        shuffle=False, num_workers=self.params["num_gpu"], pin_memory=True,
+                                                        drop_last=False, collate_fn=OCRCustomCollateFunction(self.params["config"]))
+        else:
+            self.test_loaders[custom_name] = DataLoader(self.test_datasets[custom_name], batch_size=self.params["batch_size"],
+                                                        sampler=self.test_samplers[custom_name],
+                                                        shuffle=False, num_workers=self.params["num_gpu"], pin_memory=True,
+                                                        drop_last=False, collate_fn=self.my_collate_function)
+
 
     def get_paths_and_sets(self, set_name, dataset_names):
         paths_and_sets = list()

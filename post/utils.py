@@ -2,6 +2,7 @@ import json
 import editdistance
 from transformers import pipeline
 import os
+from basic.utils import format_string_for_wer
 
 def init(vocabDir):
 
@@ -103,6 +104,9 @@ def edit_neuspell(corrupt_sen, pred_sen, english_words_set):
     '''
 
     output = []
+    corrupt_sen = format_string_for_wer(corrupt_sen)
+    pred_sen = format_string_for_wer(pred_sen)
+
     corrupt_sen = corrupt_sen.split(" ")
     pred_sen = pred_sen.split(" ")
     for i,word in enumerate(corrupt_sen):
@@ -119,11 +123,12 @@ def edit_neuspell(corrupt_sen, pred_sen, english_words_set):
 
 
 
-def edit_candidate(corrupt_sen, english_words_set, model):
+def edit_candidate(corrupt_sen, english_words_set, vocab, model):
 
     'returns the edited sentence based on finding best replacement out of a candidate list'
 
     output = []
+    corrupt_sen = format_string_for_wer(corrupt_sen)
     corrupt_sen = corrupt_sen.split(" ")
     candidates = []
     count = 0
@@ -133,7 +138,7 @@ def edit_candidate(corrupt_sen, english_words_set, model):
             # output.append(correct_string(w))
             
             count+=1
-            c = get_correct_candidates(word)
+            c = get_correct_candidates(word, vocab)
             if c is not None:
                 output.append(i)
                 candidates.append(c)
@@ -149,12 +154,13 @@ def edit_candidate(corrupt_sen, english_words_set, model):
     return output
 
 
-def edit_brute(image, vocab, english_words_set):
+def edit_brute(corrupt_sen, vocab, english_words_set):
 
     output = []
-    image = image.split(" ")
+    corrupt_sen = format_string_for_wer(corrupt_sen)
+    corrupt_sen = corrupt_sen.split(" ")
 
-    for i,word in enumerate(image):
+    for i,word in enumerate(corrupt_sen):
         w = word
         if w.lower() not in english_words_set and len(w)>1:
             output.append(get_correct_word(word,vocab))

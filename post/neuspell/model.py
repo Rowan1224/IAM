@@ -102,7 +102,7 @@ class BertChecker(Corrector):
         GRADIENT_ACC = 4
         DEVICE = self.device
         START_EPOCH, N_EPOCHS = 0, n_epochs
-        CHECKPOINT_PATH = os.path.join(self.ckpt_path if self.ckpt_path else data_dir, "new_models",
+        CHECKPOINT_PATH = os.path.join(self.ckpt_path if self.ckpt_path else data_dir, "models",
                                        os.path.split(self.bert_pretrained_name_or_path)[-1])
         if os.path.exists(CHECKPOINT_PATH):
             num = 1

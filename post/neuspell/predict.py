@@ -4,7 +4,7 @@ from seq_modeling.subwordbert import  model_inference_custom
 
 
 
-def predict(test_data,modelDir='data/new_models/bert-base_cased'):
+def predict(test_data,modelDir='data/models/bert-base_cased'):
 
     
     checker = BertChecker(device="cuda")

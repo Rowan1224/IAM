@@ -56,9 +56,9 @@ class GenericTrainingManager:
         # checkpoints_path = os.path.join(output_path, "checkpoints")
         checkpoints_path = self.params["training_params"]["checkpoint_folder"]
         os.makedirs(checkpoints_path, exist_ok=True)
-        # results_path = os.path.join(output_path, "results")
-        results_path = output_path
-        # os.makedirs(results_path, exist_ok=True)
+
+        results_path = os.path.join(output_path, "results")
+        os.makedirs(results_path, exist_ok=True)
 
         self.paths = {
             "results": results_path,
@@ -308,7 +308,7 @@ class GenericTrainingManager:
                     my_dict[key] = class_to_str_dict(my_dict[key])
             return my_dict
 
-        path = os.path.join(self.paths["results"], "params")
+        path = os.path.join(self.paths["output_folder"], "params")
         if os.path.isfile(path):
             return
         params = copy.deepcopy(self.params)
@@ -416,7 +416,7 @@ class GenericTrainingManager:
     def train(self):
         # init tensorboard file and output param summary file
         if self.is_master:
-            self.writer = SummaryWriter(self.paths["results"])
+            self.writer = SummaryWriter(self.paths["output_folder"])
             self.save_params()
         # init variables
         self.begin_time = time()
@@ -522,7 +522,7 @@ class GenericTrainingManager:
 
     def predict(self, custom_name, sets_list, metrics_name, output=False, custom=False):
         metrics_name = metrics_name.copy()
-        self.dataset.generate_test_loader(custom_name, sets_list,custom=custom)
+        self.dataset.generate_test_loader(custom_name, sets_list, custom=custom)
         loader = self.dataset.test_loaders[custom_name]
         # Set models in eval mode
         for model_name in self.models.keys():
@@ -560,12 +560,18 @@ class GenericTrainingManager:
         if output:
             for name in ["probas", ]:
                 if name in metrics.keys():
-                    path = os.path.join(self.paths["results"], "{}_{}_{}.txt".format(name, custom_name, self.latest_epoch))
+                    path = os.path.join(self.paths["output_folder"], "{}_{}_{}.txt".format(name, custom_name, self.latest_epoch))
                     info = "\n".join(metrics[name])
                     with open(path, "w") as f:
                         f.write(info)
                     del metrics[name]
             self.output(metrics, custom_name)
+
+            if 'pred' in metrics.keys(): 
+                preds,true,name = tuple(metrics['pred'])
+                output = [{'predictions': p,'true':t, 'image':n} for p,t,n in zip(preds,true,name)]
+                return output
+                        
 
 
     def predict_custom(self, custom_name, sets_list, custom=False):
@@ -674,16 +680,6 @@ class GenericTrainingManager:
         """
         path = os.path.join(self.paths["results"], "predict_{}_{}.txt".format(set_name, self.latest_epoch))
         
-        # print(metrics["pred"])
-        # if "pred" in metrics.keys():
-        #     temp_time = time()
-        #     self.output_pred(metrics["pred"], set_name)
-        #     output_time = time() - temp_time
-        #     if "total_time" in metrics.keys():
-        #         metrics["total_output_time"] = np.round(output_time, 3)
-        #         metrics["sample_output_time"] = np.round(output_time / metrics["nb_samples"], 4)
-
-        #     del metrics["pred"]
 
         with open(path, "w") as f:
             for metric_name in metrics.keys():
@@ -711,11 +707,7 @@ class GenericTrainingManager:
                     value = sorted(value, key=lambda x: x[0], reverse=True)
                     value = value[:50]
                     
-                elif metric_name in ["pred", ]: 
-                    preds,true,name = tuple(metrics[metric_name])
-                    for p,t,n in zip(preds,true,name):
-                        line = f'{p} ## {t} ## {n}'
-                        f.write(f"{line}\n")
+                
                 else:
                     continue
                 f.write("{}: {}\n".format(metric_name, value))

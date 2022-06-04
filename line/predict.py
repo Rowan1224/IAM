@@ -1,10 +1,10 @@
 from config import TrainerLineCTC
-import config
+from config import get_config
 
 
 def predict(modelDir,imageDir):
 
-    params = config.params
+    params = get_config()
     params["training_params"]["ddp_rank"] = 0
     params['training_params']['checkpoint_folder'] = modelDir
 

@@ -4,3 +4,5 @@ post/neuspell/data/models
 __pycache__/
 *.py[cod]
 *$py.class
+post/neuspell/data
+outputs
