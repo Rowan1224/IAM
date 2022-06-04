@@ -1,8 +1,4 @@
 import sys
-
-# sys.path.append(f'{sys.path[0]}/post/neuspell')
-# sys.path.append(f'{sys.path[0]}/line')
-
 sys.path.append('post/neuspell')
 sys.path.append('line')
 
@@ -34,14 +30,20 @@ def create_arg_parser():
     args = parser.parse_args()
     return args
 
+def main():
 
-if __name__ == "__main__":
-
-    
     args = create_arg_parser()
 
     modelDir = args.modelDir
     inDir = args.inDir
+
+    if not os.path.exists(modelDir):
+        print("INVALID model directory")
+        return
+    if not os.path.exists(inDir):
+        print("INVALID image directory")
+        return
+        
 
     lines = predict.predict(modelDir, inDir)
 
@@ -87,5 +89,12 @@ if __name__ == "__main__":
         with open(fileName,'w') as file:
             file.write(prediction)
 
+
+
+
+if __name__ == "__main__":
+
+    
+    
 
         
