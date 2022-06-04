@@ -515,7 +515,7 @@ class OCRCustomCollateFunction:
 
     def __call__(self, batch_data):
         names = [batch_data[i]["name"] for i in range(len(batch_data))]
-        ids = [int(batch_data[i]["name"].split("/")[-1].split("_")[-1].split(".")[0]) for i in range(len(batch_data))]
+        # ids = [int(batch_data[i]["name"].split("/")[-1].split("_")[-1].split(".")[0]) for i in range(len(batch_data))]
 
         imgs = [batch_data[i]["img"] for i in range(len(batch_data))]
         imgs_shape = [batch_data[i]["img_shape"] for i in range(len(batch_data))]
@@ -524,7 +524,6 @@ class OCRCustomCollateFunction:
         imgs = torch.tensor(imgs).float().permute(0, 3, 1, 2)
         formatted_batch_data = {
             "names": names,
-            "ids": ids,
             "imgs": imgs,
             "imgs_shape": imgs_shape,
             "imgs_reduced_shape": imgs_reduced_shape,
