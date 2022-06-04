@@ -10,4 +10,4 @@ transformers==4.17.0
 typing-extensions==3.10.0.2
 Pillow==8.0.1
 importlib-metadata==2.0.0
-
+torchvision==0.7.0
