@@ -14,6 +14,6 @@ To test the model for line rocognition on IAM dataset, run
 
 ```python recognition.py -i [path to line image directory]```
 
-The code will write the predicted text into a new *.txt file with the same file name as the input line image in a new ./results directory 
+The code will write the predicted text into a new *.txt file with the same file name as the input line image in a new ``./results`` directory 
 
 
