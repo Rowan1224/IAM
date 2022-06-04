@@ -4,11 +4,11 @@ opencv-python
 requests
 scikit-image
 scikit-learn
-torch
 tqdm
 transformers
 typing-extensions
 Pillow
 importlib-metadata
-torchvision
-tensorboard
+tensorboard==2.4.0
+torch==1.6.0
+torchvision==0.7.0
