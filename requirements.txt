@@ -11,3 +11,4 @@ typing-extensions
 Pillow
 importlib-metadata
 torchvision
+tensorboard
