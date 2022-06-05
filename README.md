@@ -46,13 +46,13 @@ Four post edit options are available:
  
  ### Data Pre-Processing
  
-  Download the IAM dataset. It is expected that the archive contains a folder with all line images and a .txt file containing ground truths.
+  Download the IAM dataset. It is expected the dataset consist of a folder with all line images and a .txt file containing respective ground truths.
   Run the dataset.py file from the main project folder. Try ``` python3 dataset.py -h ``` to know more about arguments
   ```
   python3 dataset.py 
   -i [raw input image directory] 
   -o [desired output image directory] 
-  -l [file location for the label file]
+  -l [file location for the label/ground truth file]
   
   ```
   This code should create three folders: train, test, and valid containing line images. A pickle will also be created to store the ground truth transcriptions. 
