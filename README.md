@@ -8,6 +8,8 @@
 
 ## Installation <a name="installation"></a>
 
+Requires `python 3.6+`
+
 The libraries required for the successful execution of this code are mentioned in requirements.txt. In order to install all the libraries:
 `pip install -r requirements.txt`. 
 
