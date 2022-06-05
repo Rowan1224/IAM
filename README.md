@@ -16,6 +16,8 @@ To install all the libraries: `pip install -r requirements.txt`.
 
 To download and set up the necessary folders: ``./setup.sh``
 
+Depending on the CUDA version, you may have to install the older versions of torch and torchvision. By default, it will install the latest version of torch and torchvision.
+
 
 ## Run Prediction <a name="prediction"></a>
 
