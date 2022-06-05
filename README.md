@@ -3,6 +3,8 @@
 1. [Installation](#installation)
 2. [Run Predcition](#prediction)
 3. [Train line recognition model](#trainOCR)
+4. [Evaluate Line recognition model and post-edit methods](#eval)
+5. [Train neuspell model](#neu)
 
 ## Installation <a name="installation"></a>
 
@@ -37,3 +39,28 @@ Four post edit options are available:
  
  ## Train Line recognition model <a name="trainOCR"></a>
  
+ To train the Line recognition model, run:
+ 
+ ```
+    python dataset.py -i [raw input image directory] -o [desired output image directory] -l [file location for the label file]
+    cd line
+    python train -d [dataset directory path (output image directory)] -e [epochs] 
+ ```
+  
+   ## Evaluate Line recognition model and post-edit methods <a name="eval"></a>
+  
+  To evaluate prediction performance after applying post-edit methods on the Line recognition model outputs, run:
+  
+  ```
+      python eval.py -i [prediction file*] -p [post-edit method]
+      
+  ```
+  
+  ## Train neuspell model  <a name="neu"></a>
+ 
+  ```
+    cd post/neuspell
+    python create_dataset.py -i [input directory that contains prediction files] -o [desired output directory] -e [the line recognition model epoch]
+    python train -e [epochs] 
+    
+ ```
