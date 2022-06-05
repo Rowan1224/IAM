@@ -226,7 +226,7 @@ def get_config(datasetPath = "../datasets", dataset_name = "IAM", outputDir = "o
                 "load_prev_weights": True,
                 "use_ddp": False,  # Use DistributedDataParallel
                 "use_apex": False,  # Enable mix-precision with apex package
-                "nb_gpu": torch.cuda.device_count(),
+                "nb_gpu": 0,
                 "batch_size": 4,  # mini-batch size per GPU
                 "optimizer": {
                     "class": Adam,

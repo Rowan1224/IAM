@@ -13,8 +13,10 @@ def predict(modelDir,imageDir):
     params["training_params"]["ddp_rank"] = 0
     params['training_params']['checkpoint_folder'] = modelDir
 
-    if torch.cuda.device_count()==0:
+    if not torch.cuda.is_available():
         params['training_params']['force_cpu'] = True
+    else:
+        params['training_params']['nb_gpu'] = torch.cuda.device_count()
 
     model = TrainerLineCTC(params, is_inference=True)
 
