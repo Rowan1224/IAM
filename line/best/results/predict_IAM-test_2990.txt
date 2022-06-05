@@ -1,0 +1,5 @@
+nb_samples: 1492
+nb_chars: 63970
+cer: 0.0508
+nb_words: 13744
+wer: 0.1649

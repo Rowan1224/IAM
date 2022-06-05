@@ -18,7 +18,7 @@ def create_arg_parser():
     )
 
     parser.add_argument(
-        "-p", "--post", choices=['brute', 'candidate', 'neuspell','neuspell-edit'], default='brute', type=str, help="select the post edit method"
+        "-p", "--post", choices=['brute', 'candidate', 'neuspell','neuspell-edit', 'no'], default='brute', type=str, help="select the post edit method"
     )
 
     parser.add_argument(
@@ -100,6 +100,10 @@ def main():
         for name,sen in preds:
             neu_pred = neu_preds[name]
             edited_lines.append(name, utils.edit_neuspell(sen, neu_pred, english_words_set))
+
+    elif args.post == 'no':
+
+        edited_lines = preds
 
     
     

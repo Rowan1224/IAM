@@ -44,20 +44,21 @@ def create_arg_parser():
 
 def train_and_test(rank, params, continue_training=True):
     params["training_params"]["ddp_rank"] = rank
-
+    params["training_params"]["load_prev_weights"] = continue_training
     
 
     model = TrainerLineCTC(params)
     # Model trains until max_time_training or max_nb_epochs is reached
 
-    if params['training_params']['max_nb_epochs'] < model.latest_epoch:
-        if continue_training:
+    
+    if continue_training:
+        if params['training_params']['max_nb_epochs'] < model.latest_epoch:
             max_epoch = model.latest_epoch+params['training_params']['max_nb_epochs']
             print(f"continuing training from {model.latest_epoch} to {max_epoch}")
             params['training_params']['max_nb_epochs'] = max_epoch
-        else:
-            print(f"Starting from the begining")
-            model.latest_epoch = -1
+    else:
+        print(f"Starting from the begining")
+        model.latest_epoch = -1
 
 
     model.train()

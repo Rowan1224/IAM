@@ -1,8 +1,9 @@
 datasets
-results
+/results
 post/neuspell/data/models
 __pycache__/
 *.py[cod]
 *$py.class
 post/neuspell/data
-outputs
+line/outputs
+line/models

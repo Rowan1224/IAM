@@ -8,7 +8,7 @@ def create_arg_parser():
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i", "--inDir", default = '../../line/outputs/results', type=str, help="provide the path of prediction files that also contains true value"
+        "-i", "--inDir", default = '../../line/best/results', type=str, help="provide the path of prediction files that also contains true value"
     )
     parser.add_argument(
         "-o", "--outDir", default = 'data', type=str, help="provide output directory"

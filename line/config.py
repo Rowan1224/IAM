@@ -223,6 +223,7 @@ def get_config(datasetPath = "../datasets", dataset_name = "IAM", outputDir = "o
                 "max_training_time":  3600*(24+23),  # max training time limit (in seconds)
                 "load_epoch": "best",  # ["best", "last"], to load weights from best epoch or last trained epoch
                 "interval_save_weights": None,  # None: keep best and last only
+                "load_prev_weights": True,
                 "use_ddp": False,  # Use DistributedDataParallel
                 "use_apex": False,  # Enable mix-precision with apex package
                 "nb_gpu": torch.cuda.device_count(),

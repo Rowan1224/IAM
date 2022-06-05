@@ -149,7 +149,7 @@ class GenericTrainingManager:
         # Load previous weights
         checkpoint = None
        
-        if self.params["training_params"]["load_epoch"] in ("best", "last"):
+        if self.params["training_params"]["load_epoch"] in ("best", "last") and  self.params["training_params"]["load_prev_weights"]:
             for filename in os.listdir(self.paths["checkpoints"]):
                 # Continue training
                 if self.params["training_params"]["load_epoch"] in filename:
@@ -158,16 +158,7 @@ class GenericTrainingManager:
                     self.load_save_info(checkpoint)
                     self.latest_epoch = checkpoint["epoch"]
                     self.best = checkpoint["best"]
-                    # Make model and optimizer compatible with apex if used
-                    if self.params["training_params"]["use_apex"]:
-                        models = [self.models[model_name] for model_name in self.models.keys()]
-                        models, self.optimizer = apex.amp.initialize(models, self.optimizer, opt_level=self.apex_config["level"])
-                        for i, model_name in enumerate(self.models.keys()):
-                            self.models[model_name] = models[i]
-                    # Make model compatible with Distributed Data Parallel if used
-                    if self.params["training_params"]["use_ddp"]:
-                        for model_name in self.models.keys():
-                            self.models[model_name] = to_DDP(self.models[model_name], self.params["training_params"]["use_apex"], self.ddp_config["rank"])
+                    
                     # Load model weights from past training
                     for model_name in self.models.keys():
                         self.models[model_name].load_state_dict(checkpoint["{}_state_dict".format(model_name)])
@@ -177,9 +168,7 @@ class GenericTrainingManager:
                     # Load optimizer scheduler config from past training if used
                     if "lr_scheduler" in self.params["training_params"] and self.params["training_params"]["lr_scheduler"] and "lr_scheduler_state_dict" in checkpoint.keys():
                         self.lr_scheduler.load_state_dict(checkpoint["lr_scheduler_state_dict"])
-                    # Load apex state from past training if used
-                    if self.params["training_params"]["use_apex"]:
-                        apex.amp.load_state_dict(checkpoint["apex_state_dict"])
+
                     break
 
         # Print the number of trained epoch so far with the model
