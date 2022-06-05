@@ -41,7 +41,7 @@ Four post edit options are available:
   
  Example: ```python3 recognition.py -i [path to line image directory] -p brute```
  
- To use `neuspell` post-edit methods, gpu is required. 
+ To use `neuspell` post-edit methods, GPU is required. 
  
  ## Train Line recognition model <a name="trainOCR"></a>
  
@@ -104,7 +104,7 @@ Four post edit options are available:
  ```
   ### Train Model
   
-To train the models, run the following code. It will save outputs in the data output directory created before
+To train the models, run the following code. It will save outputs in the data output directory created before. GPU is rquired to train this model. 
 
 ```
 cd post/neuspell
