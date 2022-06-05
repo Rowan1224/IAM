@@ -59,7 +59,7 @@ Four post edit options are available:
   
   ### Train Model
   
-  To train the model run the ``` train.py ``` file from ``line`` directory
+  To train the model run the ``` train.py ``` file from ``line`` directory. It is recommended to use gpu for training. 
  
  ```
     cd line
