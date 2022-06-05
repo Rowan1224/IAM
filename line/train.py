@@ -6,6 +6,7 @@ from config import TrainerLineCTC
 import pandas as pd
 import argparse
 import os
+import torch
 
 
 
@@ -46,6 +47,8 @@ def train_and_test(rank, params, continue_training=True):
     params["training_params"]["ddp_rank"] = rank
     params["training_params"]["load_prev_weights"] = continue_training
     
+    if torch.cuda.device_count()==0:
+        params['training_params']['force_cpu'] = True
 
     model = TrainerLineCTC(params)
     # Model trains until max_time_training or max_nb_epochs is reached
