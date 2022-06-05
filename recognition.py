@@ -105,7 +105,10 @@ def main():
             file.write(prediction)
 
 
-
+    print("##################################\n")
+    print(f"Total predicted {len(edited_lines)} images")
+    print(f"outputs saved in {outDir} directory")
+    print("\n##################################")
 
 if __name__ == "__main__":
 
