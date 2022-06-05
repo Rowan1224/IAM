@@ -105,7 +105,7 @@ To train the models, run the following code. It will save outputs in the data ou
 
 ```
 cd post/neuspell
-python3 train -e [epochs] 
+python3 train.py -e [epochs] 
 ```
 
 
