@@ -14,26 +14,26 @@ Clone this repository: `git clone  https://github.com/Rowan1697/IAM.git`
 
 To install all the libraries: `pip install -r requirements.txt`. 
 
-To download and setup the necessary folders: ``./setup.sh``
+To download and set up the necessary folders: ``./setup.sh``
 
 
 ## Run Prediction <a name="prediction"></a>
 
-To test the model for line rocognition on IAM dataset, run
+To test the line recognition model on the IAM dataset, run
 
 ```python3 recognition.py -i [path to line image directory]```
 
 The code will write the predicted text into a new *.txt* file with the same file name as the input line image in a new ``./results`` directory 
 
-By default, the code generates prediction from the best OCR model along with the brute force post-edit method. This combination performs best compare ot other methods. To try other post-edit methods,run:
+By default, the code generates predictions from the best OCR model along with the brute force post-edit method. This combination performs best compare to other methods. To try other post-edit methods, run:
 
 
 ```python3 recognition.py -i [path to line image directory] -p [provide post edit option]```
 
 Four post edit options are available:
-  - ``brute`` (replace the misspelled word with a word that needs minimum number of edits)
+  - ``brute`` (replace the misspelled word with a word that needs a minimum number of edits)
   - ``candidate`` (use language model to find the best replacement of the misspelled word)
-  - ``neuspell`` (a neural spell correction tool that uses a transformer based language model to build a spell correction model)
+  - ``neuspell`` (a neural spell correction tool that uses a transformer-based language model to build a spell correction model)
   - ``neuspell-edit`` (only replace the misspelled word with neuspell model prediction and keep others unchanged)
   - ``no`` (no post edits to perform)
   
@@ -42,12 +42,12 @@ Four post edit options are available:
  
  ## Train Line recognition model <a name="trainOCR"></a>
  
- To train the Line recognition model, follow this steps:
+ To train the Line recognition model, follow these steps:
  
  ### Data Pre-Processing
  
-  Download the IAM dataset. It is expected that the archive contains an folder with all line images and a txt file containing ground truths.
-  Run the dataset.py file from the main project folder.Try ``` python3 dataset.py -h ``` to know more about arguments
+  Download the IAM dataset. It is expected that the archive contains a folder with all line images and a .txt file containing ground truths.
+  Run the dataset.py file from the main project folder. Try ``` python3 dataset.py -h ``` to know more about arguments
   ```
   python3 dataset.py 
   -i [raw input image directory] 
@@ -77,17 +77,17 @@ Four post edit options are available:
   
   ```
       python3 eval.py 
-      -i [prediction file]  #Training the models will create csv files containinge the predictions in the given output directory. Provide the file location of these csv files for evaluation
+      -i [prediction file]  #Training the models will create CSV files containing the predictions in the given output directory. Provide the file location of these CSV files for evaluation
       -p [post-edit method] #proivde the post-edit method. Methods are described above. 
       
   ```
   
-  To get the results provided in the report, try csv files from ``` line/best/results ```.
+  To get the results provided in the report, try CSV files from ``` line/best/results ```.
   
   ## Train neuspell model  <a name="neu"></a>
   
  ### Data Pre-Processing
- Before training, we have to pre-process the prediciton files. run ```create_dataset.py``` from the ```port/neuspell``` folder
+ Before training, we have to pre-process the prediction files. run ```create_dataset.py``` from the ```port/neuspell``` folder
  
   ```
     cd post/neuspell
@@ -105,5 +105,13 @@ To train the models, run the following code. It will save outputs in the data ou
 
 ```
 cd post/neuspell
-python3 train -e [epochs] 
+python3 train.py -e [epochs] 
 ```
+
+
+## References
+
+1. For the line recognition model, we followed the code implementation from the paper [End-to-end Handwritten Paragraph Text Recognition Using a Vertical Attention Network](https://pubmed.ncbi.nlm.nih.gov/35077353/). The GitHub repository can be found [here](https://github.com/FactoDeepLearning/VerticalAttentionOCR).
+2. For fine-tuning the [NeuSpell: A Neural Spelling Correction Toolkit](https://arxiv.org/abs/2010.11085) model, we followed this GitHub [repository](https://github.com/neuspell/neuspell). 
+
+
