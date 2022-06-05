@@ -154,7 +154,10 @@ class GenericTrainingManager:
                 # Continue training
                 if self.params["training_params"]["load_epoch"] in filename:
                     checkpoint_path = os.path.join(self.paths["checkpoints"], filename)
-                    checkpoint = torch.load(checkpoint_path)
+                    if torch.cuda.is_available():
+                        checkpoint = torch.load(checkpoint_path)
+                    else:
+                        checkpoint = torch.load(checkpoint_path, map_location=torch.device('cpu'))
                     self.load_save_info(checkpoint)
                     self.latest_epoch = checkpoint["epoch"]
                     self.best = checkpoint["best"]
