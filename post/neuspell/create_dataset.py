@@ -34,6 +34,8 @@ def main():
 
     sets = {'train','test','valid'}
     
+    #read csv files from line recognition results directory and create formatted dataset required for neuspell model finetuning
+
     for s in sets:
 
         location = f'{inDir}/IAM-{s}-{args.epoch}-predictions.csv'
@@ -43,12 +45,12 @@ def main():
         correct = df['true'].values.tolist()
 
 
-
+        #save the ground truth as _clean.txt file
         with open(f'{outDir}/{s}_clean.txt','w') as file:
             for sen in correct:
                 file.write(f'{sen}\n')
 
-
+        #save the ground truth as _corrupt.txt file
         with open(f'{outDir}/{s}_corrupt.txt','w') as file:
             for sen in incorrect:
                 file.write(f'{sen}\n')

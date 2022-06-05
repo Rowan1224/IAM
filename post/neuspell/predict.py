@@ -6,6 +6,9 @@ from seq_modeling.subwordbert import  model_inference_custom
 
 def predict(test_data,modelDir='data/models/bert-base_cased'):
 
+    '''
+    returns the predictions from the best neuspell model 
+    '''
     
     checker = BertChecker(device="cuda")
 

@@ -4,6 +4,11 @@ from config import get_config
 
 def predict(modelDir,imageDir):
 
+    '''
+    returns the predictions from the best line recognition model 
+    
+    '''
+
     params = get_config()
     params["training_params"]["ddp_rank"] = 0
     params['training_params']['checkpoint_folder'] = modelDir

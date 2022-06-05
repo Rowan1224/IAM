@@ -55,9 +55,10 @@ def main():
             return
     
         
-
+    #get predictions from line recognition models
     lines = predict.predict(modelDir, inDir)
 
+    #load model and vocabs for post edit methods
     bert_model, bert_vocab, english_words_set = utils.init('post/vocab')
 
     if args.post == 'brute':
@@ -77,10 +78,8 @@ def main():
   
     
     elif args.post == 'neuspell-edit':
-
-               
+   
         neu_preds = neuspell.predict(lines,args.neuModel)
-        
         edited_lines = []
         for name,sen in lines:
             neu_pred = neu_preds[name]
@@ -90,6 +89,7 @@ def main():
 
         edited_lines = lines
 
+    #save predictions in txt files
 
     outDir = 'results'
     if not os.path.exists(outDir):

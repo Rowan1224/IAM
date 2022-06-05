@@ -32,6 +32,11 @@ def create_arg_parser():
 
 def split_dataset(labelFile):
 
+    """
+    Returns the dataset dict containing train, test and valid sets
+    and label dict with file names and ground truths
+    """
+
 
     with open(labelFile,'r') as file:
         lines = [line.strip() for line in file if len(line)>1]
@@ -39,9 +44,13 @@ def split_dataset(labelFile):
     
     keys = list(texts.keys())
     random.shuffle(keys)
+
+    #split dataset in 80:20 train-test ratio
     split = int(len(keys)*0.80)
     train = keys[:split]
     test = keys[split:]
+
+    #further split train set to 90:10 train-valid ratio 
     val_split = int(len(train)*0.10)
     random.shuffle(train)
     valid = train[:val_split]
@@ -58,6 +67,8 @@ def split_dataset(labelFile):
 
 def get_charset():
 
+    'Returns the english char set'
+
     puncs = ['!','"','#','&',"'",'(',')','*','+',',','-','.','/',':',';','?']
     chars = string.ascii_lowercase+string.ascii_uppercase+string.digits+"".join(puncs)    
     charset = list(chars)
@@ -66,6 +77,10 @@ def get_charset():
 
 def format_dataset(dataset, labels, inDirectory, outDirectory):
 
+    """
+    create train, test, and valid folders and copy respective image files. also
+    save the label dict as pickle file
+    """
 
     data = {'ground_truth':dict()}
     for sets, names in dataset.items():

@@ -6,6 +6,8 @@ from basic.utils import format_string_for_wer
 
 def init(vocabDir):
 
+    "initialize the bert models and load vocabs"
+
     bert_model = pipeline('fill-mask', model='bert-large-cased')    
     bert = os.path.join(vocabDir,'bert-large-cased-vocab.txt')
     english = os.path.join(vocabDir,'words_dictionary.json')
@@ -23,7 +25,8 @@ def init(vocabDir):
 
 def probe(sentence: str, candidates, model) :
 
-
+    "returns the probability scores from bert langugage model for all candidates"
+    
     scores = []
 
     for res in model(sentence,targets=candidates):
@@ -56,12 +59,18 @@ def get_correct_candidates(corrupt_str, vocab, min=3):
 
 def get_correct_word(corrupt_str, vocab, min = 5):
 
-    'returns the correct word with minimun number of edits'
+    '''
+    returns the correct word with minimun number of edits.
+    words that need more than 5 (min) edits are excluded. 
+
+    '''
 
     clean = ''
     
     for word in vocab:
-        d = editdistance.eval(word,corrupt_str) 
+        d = editdistance.eval(word,corrupt_str)
+
+          
         if min > d:
             min = d
             clean = word
@@ -98,7 +107,8 @@ def get_best_candidate(sen, pos, candidates, model):
 
 def edit_neuspell(corrupt_sen, pred_sen, english_words_set):
 
-    ''' compare the actual courrepted sentence with prediction from neuspell model 
+    ''' 
+    compare the actual courrepted sentence with prediction from neuspell model 
     and only replace the word in courrepted sentence that is not found in vocab
 
     '''
@@ -155,6 +165,8 @@ def edit_candidate(corrupt_sen, english_words_set, vocab, model):
 
 
 def edit_brute(corrupt_sen, vocab, english_words_set):
+
+    'replace the incorrect words with words that needs minimun number of edits'
 
     output = []
     corrupt_sen = format_string_for_wer(corrupt_sen)

@@ -34,6 +34,8 @@ def create_arg_parser():
 
 def eval(true, pred, set_name):
 
+    """print the wer and cer for a given list of prediction and ground truths"""
+
     true = [format_string_for_wer(line) for line in true]
 
     print("###################################################")
@@ -72,7 +74,7 @@ def main():
     true = df['true'].values.tolist()
 
        
-
+    #load model and vocabs for post edit methods
     bert_model, bert_vocab, english_words_set = utils.init('post/vocab')
 
     if args.post == 'brute':
@@ -106,7 +108,7 @@ def main():
         edited_lines = preds
 
     
-    
+    #perform evaluation
     eval(true,edited_lines,inFile.replace('.csv',''))
 
 

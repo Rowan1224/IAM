@@ -116,7 +116,7 @@ def main():
 
 
      
-
+    #get model parameters
     params = get_config(datasetPath=dataDir,dataset_name=dataset_name,outputDir=outDir,modelDir=modelDir, epochs=args.epochs)
 
     if params["training_params"]["use_ddp"] and not params["training_params"]["force_cpu"]:
