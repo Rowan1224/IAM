@@ -1,10 +1,16 @@
 ### Table of Contents
-
+0. [Summary](#summary)
 1. [Installation](#installation)
 2. [Run Predcition](#prediction)
 3. [Train line recognition model](#trainOCR)
 4. [Evaluate Line recognition model and post-edit methods](#eval)
 5. [Train neuspell model](#neu)
+
+## Summary  <a name="summary"></a>
+
+With the advancement of OCR models, Text Detection from Images has made significant strides in recent years. Even while these models work exceptionally well with digital documents, there is always a potential for improvement in detecting text lines in handwritten documents. Variations in writing style, font size, and image quality have exacerbated this difficulty. There are two typical methods for detecting text lines. Segmenting lines and characters prior to employing a character recognition classifier to map characters to the final text output is one more standard approach. Using an end-to-end model to directly detect text lines from raw image inputs is another method. In this work, utilizing the popular IAM dataset, I converted handwritten line images to text output using an end-to-end approach. In addition, I investigated how the output of the end-to-end model may be further processed to improve text recognition quality. I trained an end-to-end model to recognize line images using a CNN-based model. The integration of spell correction techniques to improve the performance of this end-to-end architecture was my key focus. I have employed three unique post-processing strategies, one of which (brute force) leverages existing vocabulary to replace misspelled words, whereas the other two (edit-distance+LM and NeuSpell) use pre-trained language models to rectify spelling issues. I have concluded that brute force is the most effective tactic and have obtained a Character Error Rate (CER) of 5% using this method. 
+
+[Full Report](https://drive.google.com/file/d/1afOm9xnK7QIiteWZch7fRdHSIabVt9te/view)
 
 ## Installation <a name="installation"></a>
 
